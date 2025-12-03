@@ -47,13 +47,20 @@ namespace DisableEnemyGeo
             }
         }
 
-        //Disables all other enemy Geo drops
+        //10X all geo drops
         private void OnDie(On.HealthManager.orig_Die orig, HealthManager self, float? attackDirection, AttackTypes attackType, bool ignoreEvasion)
-        {
-            self.SetGeoSmall(0);
-            self.SetGeoMedium(0);
-            self.SetGeoLarge(0);
-            orig(self, attackDirection, attackType, ignoreEvasion);
-        }
+{
+    int small = self.geoSmall;
+    int medium = self.geoMedium;
+    int large = self.geoLarge;
+
+    // Multiply by 10
+    self.SetGeoSmall(small * 10);
+    self.SetGeoMedium(medium * 10);
+    self.SetGeoLarge(large * 10);
+
+    // Run original function
+    orig(self, attackDirection, attackType, ignoreEvasion);
+}
     }
 }
